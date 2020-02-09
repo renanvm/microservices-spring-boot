@@ -17,13 +17,14 @@ public class InputTemperatureController {
 
     @GetMapping("/celsius/{degree}")
     public Temperature getFahreinheitTemperature (@PathVariable double degree){
+        restTemplate.postForObject("http://conversion-temperature-log-service/conversionLog/","/input/celsius", String.class);
         return restTemplate.getForObject("http://conversion-temperature-service/convert/toFahrenheit/"+degree, Temperature.class);
     }
 
     @GetMapping("/fahrenheit/{degree}")
     public Temperature getCelsiusTemperature(@PathVariable double degree){
+        restTemplate.postForObject("http://conversion-temperature-log-service/conversionLog/","/input/fahrenheit", String.class);
         return restTemplate.getForObject("http://conversion-temperature-service/convert/toCelsius/"+degree, Temperature.class);
     }
-
 
 }
