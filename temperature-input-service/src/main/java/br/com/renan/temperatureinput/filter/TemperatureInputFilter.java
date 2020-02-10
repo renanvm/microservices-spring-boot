@@ -1,5 +1,6 @@
 package br.com.renan.temperatureinput.filter;
 
+import br.com.renan.temperatureinput.service.TemperatureInputService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -15,6 +16,9 @@ public class TemperatureInputFilter implements Filter {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private TemperatureInputService temperatureInputService;
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -27,7 +31,7 @@ public class TemperatureInputFilter implements Filter {
 
         String requestUrl = req.getRequestURI();
 
-        restTemplate.postForEntity("http://temperature-conversion-log-service/conversionLog/",requestUrl, String.class);
+        temperatureInputService.saveConversionTempLog(requestUrl);
 
         filterChain.doFilter(servletRequest, servletResponse);
     }
